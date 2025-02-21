@@ -7,14 +7,12 @@ export default function Form() {
   const [error, setError] = useState("");
 
   const handleFirstNameChange = (event) => {
-    const value = event.target.value;
-    setFirstName(value);
+    setFirstName(event.target.value);
     setError(""); // Clear error on input change
   };
 
   const handleLastNameChange = (event) => {
-    const value = event.target.value;
-    setLastName(value);
+    setLastName(event.target.value);
     setError(""); // Clear error on input change
   };
 
@@ -55,13 +53,12 @@ export default function Form() {
         />
         <br />
         <br />
+
         <button type="submit">Submit</button>
       </form>
 
-      {/* Display error message */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Display full name only if both fields are filled */}
       {fullName && <p>Full Name: {fullName}</p>}
     </>
   );
