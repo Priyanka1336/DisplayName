@@ -9,6 +9,30 @@ export default function Form() {
   // Regex for letters only (no numbers or special characters)
   const lettersOnly = /^[A-Za-z]+$/;
 
+  const validateInput = (name) => {
+    return lettersOnly.test(name);
+  };
+
+  const handleFirstNameChange = (event) => {
+    const value = event.target.value;
+    if (value === "" || validateInput(value)) {
+      setFirstName(value);
+      setError(""); // Clear error if input is valid or empty
+    } else {
+      setError("Only letters are allowed for names.");
+    }
+  };
+
+  const handleLastNameChange = (event) => {
+    const value = event.target.value;
+    if (value === "" || validateInput(value)) {
+      setLastName(value);
+      setError(""); // Clear error if input is valid or empty
+    } else {
+      setError("Only letters are allowed for names.");
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -17,7 +41,7 @@ export default function Form() {
       setError("Both first and last name are required.");
       return;
     }
-    if (!lettersOnly.test(firstName) || !lettersOnly.test(lastName)) {
+    if (!validateInput(firstName) || !validateInput(lastName)) {
       setError("Only letters are allowed for names.");
       return;
     }
@@ -27,6 +51,13 @@ export default function Form() {
     setFullName(`${firstName} ${lastName}`);
   };
 
+  // Enable submit button only if both fields are non-empty and valid
+  const isFormValid =
+    firstName &&
+    lastName &&
+    validateInput(firstName) &&
+    validateInput(lastName);
+
   return (
     <>
       <h1>Full Name Display</h1>
@@ -35,9 +66,8 @@ export default function Form() {
         <input
           name="firstName"
           type="text"
-          required
           value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          onChange={handleFirstNameChange}
         />
         <br />
         <br />
@@ -45,13 +75,14 @@ export default function Form() {
         <input
           name="lastName"
           type="text"
-          required
           value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          onChange={handleLastNameChange}
         />
         <br />
         <br />
-        <button>Submit</button>
+        <button type="submit" disabled={!isFormValid}>
+          Submit
+        </button>
       </form>
 
       {/* Display error message */}
