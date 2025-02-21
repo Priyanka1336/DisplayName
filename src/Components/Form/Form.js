@@ -59,9 +59,6 @@ export default function Form() {
 
       {/* Display full name only if both fields are non-empty */}
       {fullName && <p>Full Name: {fullName}</p>}
-
-      {/* Display error message */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </>
   );
 }
