@@ -6,43 +6,25 @@ export default function Form() {
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
 
-  // Regex for letters only (no numbers or special characters)
-  const lettersOnly = /^[A-Za-z]+$/;
-
-  const validateInput = (name) => {
-    return lettersOnly.test(name);
-  };
-
   const handleFirstNameChange = (event) => {
     const value = event.target.value;
-    if (value === "" || validateInput(value)) {
-      setFirstName(value);
-      setError(""); // Clear error if input is valid or empty
-    } else {
-      setError("Only letters are allowed for names.");
-    }
+    setFirstName(value);
+    setError(""); // Clear error on input change
   };
 
   const handleLastNameChange = (event) => {
     const value = event.target.value;
-    if (value === "" || validateInput(value)) {
-      setLastName(value);
-      setError(""); // Clear error if input is valid or empty
-    } else {
-      setError("Only letters are allowed for names.");
-    }
+    setLastName(value);
+    setError(""); // Clear error on input change
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Validate first name and last name
+    // Check if either field is empty
     if (!firstName || !lastName) {
       setError("Both first and last name are required.");
-      return;
-    }
-    if (!validateInput(firstName) || !validateInput(lastName)) {
-      setError("Only letters are allowed for names.");
+      setFullName(""); // Clear full name if validation fails
       return;
     }
 
@@ -50,13 +32,6 @@ export default function Form() {
     setError("");
     setFullName(`${firstName} ${lastName}`);
   };
-
-  // Enable submit button only if both fields are non-empty and valid
-  const isFormValid =
-    firstName &&
-    lastName &&
-    validateInput(firstName) &&
-    validateInput(lastName);
 
   return (
     <>
@@ -80,15 +55,13 @@ export default function Form() {
         />
         <br />
         <br />
-        <button type="submit" disabled={!isFormValid}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
 
       {/* Display error message */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Display full name */}
+      {/* Display full name only if both fields are filled */}
       {fullName && <p>Full Name: {fullName}</p>}
     </>
   );
